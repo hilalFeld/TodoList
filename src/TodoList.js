@@ -1,11 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Todo from "./Todo"
+import { Container, IconButton, InputAdornment, Paper, TextField } from "@mui/material";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import "@fontsource/roboto/300.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
 
 const TodoList = () => {
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event) => { // function that saves the todo
         event.preventDefault();
-        // function that saves the todo
         if (!todo) return
         addTodos(todo)
         setTodo("")
@@ -15,7 +20,7 @@ const TodoList = () => {
     const [todos, setTodos] = useState([])
 
     const addTodos = (todoText) => {
-        const newTodos = [...todos, { todoText }]
+        const newTodos = [...todos, { todoText, isCompleted: false }];
         setTodos(newTodos)
     }
 
@@ -27,39 +32,59 @@ const TodoList = () => {
 
     const completeTodo = (index) => {
         const newTodos = [...todos];
-        newTodos[index].isCompleted = true;
+        newTodos[index].isCompleted = !newTodos[index].isCompleted;
         setTodos(newTodos);
     }
 
     return (
-        <>
-            <h1> Todo List </h1>
+        <Container maxWidth="sm">
+            <h1
+                style={{
+                    textAlign: "center",
+                    fontFamily: "Roboto",
+                    fontSize: "4 rem",
+                    margin: "4 rem 0",
+                }}
+            >
+                Todo List
+            </h1>
             <form onSubmit={handleSubmit}>
-                <input
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Add Todo"
                     value={todo}
                     onChange={(e) => {
-                        setTodo(e.target.value)
+                        setTodo(e.target.value);
                     }}
                     type="text"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton edge="end" onClick={handleSubmit}>
+                                    <AddCircleOutline />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
-
-                <button type="submit"> Add Todo </button>
             </form>
-
-            {
-                todos.map((todo, index) => {
+            <Paper style={{ marginTop: 16 }}>
+                {todos.map((todo, index) => {
                     // I want to show the todo
-                    return <Todo
-                        todo={todo}
-                        index={index}
-                        key={index}
-                        removeTodo={removeTodo}
-                        completeTodo={completeTodo}
-                    />;
-                })
-            }
-        </>
-    )
-}
+                    return (
+                        <Todo
+                            todo={todo}
+                            index={index}
+                            key={index}
+                            removeTodo={removeTodo}
+                            completeTodo={completeTodo}
+                        />
+                    );
+                })}
+            </Paper>
+        </Container>
+    );
+};
 
 export default TodoList

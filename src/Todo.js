@@ -1,14 +1,25 @@
+import React from "react";
+import { Checkbox, IconButton, ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material"
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Todo = ({ todo, index, completeTodo, removeTodo }) => {
     return (
-        <div style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}>
-            {todo.todoText}
-            <div>
-                <button onClick={() => completeTodo(index)}>Complete</button>
-                <button onClick={() => removeTodo(index)}>Remove </button>
-            </div>
-        </div>
-    )
-}
+        <ListItem
+            style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+        >
+
+            <Checkbox
+                onClick={() => completeTodo(index)}
+                checked={todo.isCompleted}
+            />
+            <ListItemText primary={todo.todoText} />
+            <ListItemSecondaryAction>
+                <IconButton edge="end" onClick={() => removeTodo(index)}>
+                    <DeleteIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
+    );
+};
 
 export default Todo
