@@ -15,20 +15,20 @@ const TodoList = () => {
     const [todos, setTodos] = useState([])
 
     const addTodos = (todoText) => {
-        const newTodos = [...todos, todoText]
+        const newTodos = [...todos, { todoText }]
         setTodos(newTodos)
     }
 
-    // const completeTodo = () => {
-
-    // }
-
-    const removeTodo = () => {
-
+    const removeTodo = (index) => {
+        const newTodos = [...todos];
+        newTodos.splice(index, 1);
+        setTodos(newTodos);
     }
 
-    const completeTodo = () => {
-
+    const completeTodo = (index) => {
+        const newTodos = [...todos];
+        newTodos[index].isCompleted = true;
+        setTodos(newTodos);
     }
 
     return (
